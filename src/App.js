@@ -1,24 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class App extends Component {
-  state = {users: []}
+import Board from './Board';
 
-  componentDidMount() {
-    fetch('/users')
-      .then(res => res.json())
-      .then(users =>this.setState({ users }));
+class App extends Component {
+  state = {
+    showBoard: false,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.showBoard = this.showBoard.bind(this)
+  }
+
+  showBoard() {
+    this.setState({ showBoard: true })
   }
 
   render() {
-    return (
-      <div className="App">
-      <h1>Users</h1>
-      {this.state.users.map(user =>
-        <div key={user.id}>{user.username}</div>
-      )}
-      </div>
-    );
+    const { showBoard } = this.state;
+
+    if (showBoard) {
+      return <Board />
+    } else {
+      return (
+        <div className="App">
+          <h1 className="logo">Checkers</h1>
+          <button onClick={this.showBoard}>
+            Start a Game
+          </button>
+        </div>
+      );
+    }
   }
 }
 
